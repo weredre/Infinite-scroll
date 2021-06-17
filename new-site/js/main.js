@@ -1,6 +1,6 @@
-const Masonry = require('masonry-layout');
-const InfiniteScroll = require('infinite-scroll');
-const imagesLoaded = require('imagesloaded');
+// const Masonry = require('masonry-layout');
+// const InfiniteScroll = require('infinite-scroll');
+// const imagesLoaded = require('imagesloaded');
 
 let $grid = $('.grid').masonry({
   itemSelector: '.photo-item',

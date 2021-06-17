@@ -9,6 +9,8 @@ A mock Pinterest style website using Infinite Scroll and Masonry styling.
 Used the Infinite Scroll API for Front-End
 Used JSONBIN.io for Back-End
 
+Live Version https://sad-boyd-1159e9.netlify.app/
+
 ## Getting Started
 
 ### Dependencies
@@ -34,6 +36,9 @@ Andre Heslop
 
 
 ## Version History
+* 1.0
+  * Launched on Netlify
+
 * 0.5
   * Touch ups with styling
 
