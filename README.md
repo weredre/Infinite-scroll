@@ -1,6 +1,4 @@
-# Infinite-scroll
-
-Simple overview of use/purpose.
+# 1. Infinite-scroll challenge
 
 ## Description
 
