@@ -1,41 +1,56 @@
-// Get an API key for your demos at https://unsplash.com/developers
-// const unsplashID = 'yJiR4Eu1pytQ-zXV5s4jGrTWdQF0955S4v_3pwdWM6M';
+const Masonry = require('masonry-layout');
+const InfiniteScroll = require('infinite-scroll');
+const imagesLoaded = require('imagesloaded');
 
-// fetch('./fuck-this.json')
-//   .then(response => response.json())
+let $grid = $('.grid').masonry({
+  itemSelector: '.photo-item',
+  columnWidth: '.grid__col-sizer',
+  gutter: '.grid__gutter-sizer',
+  percentPosition: true,
+  stagger: 30,
+  // nicer reveal transition
+  visibleStyle: { transform: 'translateY(0)', opacity: 1 },
+  hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
+});
 
-let $container = $( '.container').infiniteScroll({
+//------------------//
 
-   path: function() {
+
+// get Masonry instance
+var msnry = $grid.data('masonry');
+
+$grid.infiniteScroll({
+  path: function() {
     return `https://api.jsonbin.io/b/60ca9f7e8ea8ec25bd0e98da`;
   },
   // load response as JSON
   responseBody: 'json',
-  status: '.scroll-status',
+  outlayer: msnry,
+  status: '.page-load-status',
   history: false,
-  debug:true
+
 });
 
-$container.on( 'load.infiniteScroll', function( event, body ) {
-
+$grid.on( 'load.infiniteScroll', function( event, body ) {
   // compile body data into HTML
   let itemsHTML = body.map( getItemHTML ).join('');
   // convert HTML string into elements
-  let $items =  $( itemsHTML );
+  let $items = $( itemsHTML );
   // append item elements
-  $container.infiniteScroll( 'appendItems', $items );
+  $items.imagesLoaded( function() {
+    $grid.append( $items ).masonry( 'appended', $items );
+  })
 });
 
 // load initial page
-$container.infiniteScroll('loadNextPage');
+$grid.infiniteScroll('loadNextPage');
 
 //------------------//
 
-function getItemHTML({ images, pinner,description }) {
+function getItemHTML({ pinner, images, link }) {
   return `<div class="photo-item">
     <img class="photo-item__image" src="${images.orig.url}" alt="Photo by ${pinner.full_name}" />
-    <p class="photo-item__caption">
-      <a href="${description}?utm_source=infinite-scroll-demos&utm_medium=referral&utm_campaign=api-credit">${pinner.full_name}</a>
-      </p>
+    <a href="${link}?utm_source=infinite-scroll-demos&utm_medium=referral&utm_campaign=api-credit">${pinner.full_name}</a>
+   </p>
   </div>`;
 }
